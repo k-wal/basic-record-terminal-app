@@ -10,9 +10,9 @@ def display_menu():
 
 
 def display_initial_choice():
-	print("[1] See previous entries of a day.\n")
-	print("[2] New entry.\n")
-	print("[q] Quit.\n")
+	print("[1] See previous entries\n")
+	print("[2] New entry\n")
+	print("[q] Quit\n")
 	return input("")
 
 

@@ -48,6 +48,19 @@ def show_entry_menu():
 		year = input("Year(yyyy) : ")
 		show_another_month_entries(month, year)
 
+	if choice == 'r':
+		print("Enter from : ")
+		date = input("Date(dd) : ")
+		month = input("Month(mm) : ")
+		year = input("Year(yyyy) : ")
+		day1 = datetime.datetime.strptime(date+month+year,"%d%m%Y").date()
+		print("Enter to : ")
+		date = input("Date(dd) : ")
+		month = input("Month(mm) : ")
+		year = input("Year(yyyy) : ")
+		day2 = datetime.datetime.strptime(date+month+year,"%d%m%Y").date()
+		show_range_entries(day1, day2)		
+
 	if choice == 'q':
 		display_menu()
 		print("Come back\n")
@@ -166,7 +179,7 @@ def show_another_month_entries(month, year):
 	choice = show_month_entries_choice()
 	if choice == 'd':
 		entry_num = input("Entry number : ")
-		delete_entry(entries[int(entry_num)-1].id, 2)
+		delete_entry(entries[int(entry_num)-1].id, 4)
 
 	if choice == 'b':
 		show_entry_menu()
@@ -179,7 +192,37 @@ def show_another_month_entries(month, year):
 		display_menu()
 		print("It's okay.\n")
 		exit()
-	
+
+
+def show_range_entries(d1,d2):
+	display_menu()
+	print("ENTRIES FROM "+str(d1)+" to "+str(d2)+" : \n")
+	entries = session.query(Entry).filter(Entry.create_date <= d2, Entry.create_date >= d1).all()
+	num = 1
+	for entry in entries :
+		print(str(num)+". "+entry.title)
+		print("(on "+str(entry.create_date)+" )\n")
+		print(entry.content+"\n")
+		print("\n")
+		num = num + 1
+		
+	choice = show_month_entries_choice()
+	if choice == 'd':
+		entry_num = input("Entry number : ")
+		delete_entry(entries[int(entry_num)-1].id, 5, d1, d2)
+
+	if choice == 'b':
+		show_entry_menu()
+
+	if choice == 'h':
+		display_menu()
+		arr = []
+
+	if choice == 'q':
+		display_menu()
+		print("It's okay.\n")
+		exit()
+
 
 def create_entry():
 	display_menu()
@@ -204,7 +247,7 @@ def create_entry():
 		exit()
 
 
-def delete_entry(entry_id , f):
+def delete_entry(entry_id , f, d1='eh', d2='eh'):
 	entry = session.query(Entry).filter(Entry.id == entry_id).first()
 	session.delete(entry)
 	session.commit()
@@ -216,3 +259,10 @@ def delete_entry(entry_id , f):
 
 	elif f==3:
 		show_another_day_entries(entry.create_date)
+
+	elif f==4:
+		date = entry.create_date
+		show_another_month_entries(date.month, date.year)
+
+	elif f==5:
+		show_range_entries(d1,d2)
