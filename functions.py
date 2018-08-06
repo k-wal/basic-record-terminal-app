@@ -23,6 +23,7 @@ def show_entry_menu_choice():
 	print("[d] Another day's entries\n")
 	print("[a] Another month's entries\n")
 	print("[r] Entries of a range\n")
+	print("[z] All previous entries\n")
 	print("[b] Go back\n")
 	print("[q] Quit")
 	return input("")

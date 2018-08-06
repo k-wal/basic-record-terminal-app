@@ -43,6 +43,10 @@ def show_entry_menu():
 		d = datetime.datetime.strptime(date+month+year,"%d%m%Y").date()
 		show_another_day_entries(d)
 	
+	if choice == 'z':
+		show_all_previous_entries()
+
+
 	if choice == 'a':
 		month = input("Month(mm) : ")
 		year = input("Year(yyyy) : ")
@@ -130,6 +134,38 @@ def show_another_day_entries(day):
 		display_menu()
 		print("It's okay.\n")
 		exit()
+
+def show_all_previous_entries():
+	display_menu()
+	print("ALL PREVIOUS ENTRIES")
+	entries = session.query(Entry).filter(Entry.id > 0).all()
+	#print(entries)
+
+	num = 1
+	for entry in entries:
+		print(str(num)+". "+entry.title)
+		print("(on "+str(entry.create_date)+" )\n")
+		print(entry.content+"\n")
+		print("\n")
+		num = num + 1
+		
+	choice = show_month_entries_choice()
+	if choice == 'd':
+		entry_num = input("Entry number : ")
+		delete_entry(entries[int(entry_num)-1].id, 3)
+
+	if choice == 'b':
+		show_entry_menu()
+
+	if choice == 'h':
+		display_menu()
+		arr = []
+
+	if choice == 'q':
+		display_menu()
+		print("It's okay.\n")
+		exit()
+
 
 
 def show_month_entries():
