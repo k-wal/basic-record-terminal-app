@@ -18,7 +18,7 @@ engine = create_engine('sqlite:///database.db')
 # declaratives can be accessed through a DBSession instance
 Base.metadata.bind = engine
 Base.metadata.create_all(engine)
- 
+
 DBSession = sessionmaker(bind=engine)
 # A DBSession() instance establishes all conversations with the database
 # and represents a "staging zone" for all the objects loaded into the
@@ -33,7 +33,7 @@ session = DBSession()
 display_menu()
 choice = ''
 while choice != 'q':
-    
+
     choice = display_initial_choice()
     display_menu()
 
@@ -45,9 +45,8 @@ while choice != 'q':
         print("functionality currently unavaialable\n")
         entry.create_entry()
 
-    elif choice == 'q': 
+    elif choice == 'q':
         print("Have a nice day, yeah?\n")
 
-    else :
+    else:
         print("choice not recognized")
-
